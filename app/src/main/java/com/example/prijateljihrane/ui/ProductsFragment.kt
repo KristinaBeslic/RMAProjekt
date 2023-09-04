@@ -17,6 +17,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.exp
 
 class ProductsFragment : Fragment() {
 
@@ -47,11 +50,10 @@ class ProductsFragment : Fragment() {
                 it.children.forEach {
                     products.add(jsonConvertProduct(it.value.toString()))
                 }
-                adapter.setData(products)
+                adapter.setData(products.sortedByDescending { it.quantity } )
             }.addOnFailureListener {
                 Log.e("firebase", "Error getting data", it)
             }
-
 
         return binding.root
     }

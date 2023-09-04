@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.prijateljihrane.R
 import com.example.prijateljihrane.data.Product
 import com.example.prijateljihrane.databinding.ProductItemBinding
+import java.util.*
 
 class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
@@ -28,16 +29,16 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() 
         val context = holder.itemView.context
 
         holder.binding.productName.text = context.getString(R.string.product_info, product?.name)
-        holder.binding.quantityInfo.text = context.getString(R.string.quantity_info, product?.quantity)
-        holder.binding.expirationDate.text = context.getString(R.string.expiration_date, product?.expirationDate)
+        holder.binding.quantityInfo.text =
+            context.getString(R.string.quantity_info, product?.quantity)
+        holder.binding.expirationDate.text =
+            context.getString(R.string.expiration_date, product?.expirationDate)
 
-        holder.binding.deleteProductButton.setOnClickListener{
+        holder.binding.deleteProductButton.setOnClickListener {
             Toast.makeText(context, "Product deleted!", Toast.LENGTH_SHORT).show()
             products.removeAt(position)
             notifyItemChanged(position)
         }
-
-
     }
 
     override fun getItemCount(): Int {

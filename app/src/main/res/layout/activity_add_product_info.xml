@@ -8,9 +8,11 @@
     tools:context=".ui.AddProductInfoActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/productName"
+        android:id="@+id/productNameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@color/design_default_color_error"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
 

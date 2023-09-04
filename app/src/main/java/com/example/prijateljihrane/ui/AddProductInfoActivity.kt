@@ -3,6 +3,8 @@ package com.example.prijateljihrane.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import com.example.prijateljihrane.data.Product
@@ -35,6 +37,9 @@ class AddProductInfoActivity : AppCompatActivity() {
         var name = "Apple"
         var quantity = 3
         var date = "25.12.2023"
+
+        binding.saveProductButton.isEnabled = false
+        binding.productNameEt.addTextChangedListener(textWatcher)
 
         if (extras != null) {
             val productName = extras.getString("Product name")
@@ -80,6 +85,22 @@ class AddProductInfoActivity : AppCompatActivity() {
 
     }
 
+    private val textWatcher: TextWatcher = object: TextWatcher{
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            binding.run{
+                saveProductButton.isEnabled = validateProductName()
+                productNameLayout.helperText =
+                    if(!validateProductName())
+                        resources.getString(R.string.required)
+                    else null
+            }
+        }
+        override fun afterTextChanged(p0: Editable?) = Unit
+
+    }
+
     private fun setQuantity() {
         binding.quantityEt.setText("1")
         binding.decreaseBtn.setOnClickListener {
@@ -111,5 +132,15 @@ class AddProductInfoActivity : AppCompatActivity() {
 
     private fun setMinDate() {
         binding.datePicker.minDate = System.currentTimeMillis() - 1000
+    }
+
+    private fun validateProductName(): Boolean{
+        return binding.productNameEt.text.toString() != ""
+    }
+
+    private fun validateQuantity(): Boolean{
+        if(binding.quantityEt.text.toString().toInt() < 1)
+            Toast.makeText(this, "Quantity must be larger than 0!", Toast.LENGTH_LONG).show()
+        return binding.quantityEt.text.toString().toInt() >= 1
     }
 }
